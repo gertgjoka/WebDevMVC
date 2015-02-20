@@ -1,0 +1,24 @@
+﻿@using Lesson7.Model
+@model Lesson7.Models.StudentModel
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@Model.Emri</h2>
+        <p>
+            Studenti eshte me kohe te
+            @if (Model.TipiIStudentit == StudentType.FullTime)
+            {
+                @Html.Encode(" plote");
+            }
+            else
+            {
+                @Html.Encode(" pjesshme");
+            }
+        </p>
+        <p>
+            @Html.ActionLink("Details", "Details", new { id = Model.Id})
+        </p>
+        <hr />
+    </div>
+</div>
+

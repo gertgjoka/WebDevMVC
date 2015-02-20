@@ -1,0 +1,24 @@
+﻿@using Lesson7.Views.Home;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+@{
+    var amount = 10.0m;
+    var someDate = new DateTime(2014, 7, 8);
+}
+<div>
+    @Perkthim.Greeting
+</div>
+<div>
+    Shuma: @amount.ToString("c"); @* formatim si monedhe *@
+    <br />
+    Data: @someDate.ToShortDateString();
+</div>
+<div>
+   Numri maksimal i studenteve ne nje klase eshte @ConfigurationManager.AppSettings["NumriMaksimalIStudenteve"]
+</div>
+

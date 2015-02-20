@@ -1,0 +1,22 @@
+﻿@using Lesson7.Models;
+@model List<Lesson7.Models.StudentModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured{
+    Numri i studenteve eshte @Model.Count()
+<div>
+
+    </div>
+}
+
+<div class="jumbotron">
+    <p class="lead">Lista e studenteve</p>
+</div>
+
+@foreach (StudentModel student in Model )
+{ 
+    @Html.Partial("_Student", student)
+}

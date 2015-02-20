@@ -1,0 +1,82 @@
+﻿@using Lesson7.Models;
+@model Lesson7.Models.StudentModel
+
+@{
+    ViewBag.Title = "Details";
+}
+@helper LabelWithMarkRazor(string content)
+{
+    <label><mark>@content</mark></label>
+}
+
+@if (Model != null)
+{ 
+    <h2>Details</h2>
+
+    <div>
+        <h4>Student @Model.Emri @Model.Email</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+               Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Emri)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TipiIStudentit)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TipiIStudentit)
+            </dd>
+            <dt>
+                Kurset per te cilat eshte regjistruar
+            </dt>
+            <dd>
+               @Html.Raw(String.Join(", ", Model.Courses.Select(c => Html.ActionLink(c.Emer, "Details", "Course", routeValues: new { id = c.Id }, htmlAttributes: new { target = "_blank"}))))
+            </dd>
+            <dt>
+                Nota
+            </dt>
+
+            <dd>
+                @String.Join(", ", Model.StudentNotas.Select(n => n.Nota))
+                @*@Html.DisplayFor(model => model.listaNotave)*@
+            </dd>
+            <dt>
+                Nota me e larte
+            </dt>
+
+            <dd>
+                @Model.StudentNotas.Max(n => n.Nota)
+            </dd>
+            <dt>
+                Nota mesatare
+            </dt>
+
+            <dd>
+                @if (Model.StudentNotas.Count > 0)
+                {
+                    Model.StudentNotas.Average(n => n.Nota.HasValue ? n.Nota.Value : 0).ToString("0.00");
+                }
+            </dd>
+            <dt>
+                Nota me e ulet
+            </dt>
+
+            <dd>
+                @Model.StudentNotas.Min(n => n.Nota)
+            </dd>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+else
+{
+    <h2>No details to show</h2>
+}
