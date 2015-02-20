@@ -10,18 +10,23 @@ using System.Data.Entity;
 using System.Web.UI;
 using Lesson7.Models;
 using AutoMapper;
+using Lesson7.Service;
 
 namespace Lesson7.Controllers
 {
     public class StudentController : Controller
     {
-        [OutputCache(Duration=1200)]
+        IStudentService StudentService;
+
+        public StudentController(IStudentService StudentService)
+        {
+            this.StudentService = StudentService;
+        }
+
+        [OutputCache(Duration = 1200)]
         public ActionResult Index()
         {
-            using (var db = new Lesson7Entities())
-            {
-                return View(db.Students.AsEnumerable().Select(s => Mapper.Map<StudentModel>(s)).ToList());
-            }
+            return View(StudentService.GetAll().Select(s => Mapper.Map<StudentModel>(s)).ToList());
         }
 
         [HandleError]
@@ -55,84 +60,82 @@ namespace Lesson7.Controllers
 
 
         [HttpGet]
-        [OutputCache(CacheProfile="Aggresive")]
+        [OutputCache(CacheProfile = "Aggresive")]
         public ActionResult Search(string name = "cimi")
         {
-            using (var db = new Lesson7Entities())
+
+            StudentModel student = Mapper.Map<StudentModel>(StudentService.Search(s => s.Emri.ToLower() == name.ToLower()));
+            if (student != null)
             {
-                StudentModel student = Mapper.Map<StudentModel>(db.Students.FirstOrDefault(s => s.Emri.ToLower() == name.ToLower())) ;
-                if (student != null)
-                {
-                    return Json(student, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Content(String.Format("Studenti {0} nuk gjendet ne liste", name));
-                }
+                return Json(student, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Content(String.Format("Studenti {0} nuk gjendet ne liste", name));
             }
         }
 
-        public bool trueOrFalse (Student student, string name)
+        public bool trueOrFalse(Student student, string name)
         {
             return true;
         }
-        
+
         [HttpPost]
         public ActionResult Search()
         {
             return Content("Search!");
         }
 
-       
+
         public ActionResult Details(int? Id)
         {
-            using (var db = new Lesson7Entities())
+            if (Id.HasValue)
             {
-                return View(Mapper.Map<StudentModel>(db.Students.Include(s => s.StudentNotas).Include(s => s.Courses).FirstOrDefault(s => s.Id == Id)));
+                return View(Mapper.Map<StudentModel>(StudentService.GetById(Id.Value)));
+            }
+            else
+            {
+                return View("Index");
             }
         }
 
         public ActionResult Edit(int? Id)
         {
-            using (var db = new Lesson7Entities())
+            if (Id.HasValue)
             {
-                return View(Mapper.Map<StudentModel>(db.Students.FirstOrDefault(s => s.Id == Id)));
+                return View(Mapper.Map<StudentModel>(StudentService.GetById(Id.Value, false)));
+            }
+            else
+            {
+                return View("Index");
             }
         }
 
         // Ketu mund te perdorim edhe nje FormCollection nese duam
         // Model
         [HttpPost]
-        public ActionResult Edit (StudentModel student)
+        public ActionResult Edit(StudentModel student)
         {
             if (ModelState.IsValid)
             {
-                using (var db = new Lesson7Entities())
-                {
-                    Student st = db.Students.FirstOrDefault(s => s.Id == student.Id);
-                    if (st != null)
-                    {
-                        st = Mapper.Map<Student>(student);
-                        db.Students.Attach(st);
-                        db.SaveChanges();
-                        return RedirectToAction("Details", new { name = student.Emri });
-                    }
-                }
+                Student st = Mapper.Map<Student>(student);
+                StudentService.Update(st);
+                return RedirectToAction("Details", new { id = student.Id });
+
             }
             return View(student);
         }
 
 
         [ChildActionOnly]
-        [OutputCache(Duration=60)]
+        [OutputCache(Duration = 60)]
         public ActionResult BestStudent()
         {
-            using (var db = new Lesson7Entities())
-            {
-                var bestStudent = Mapper.Map<StudentModel>(db.Students.OrderByDescending(s => s.StudentNotas.Average(n => n.Nota)).First());
 
-                return PartialView("_Student", bestStudent);
-            }
+            var bestStudent = Mapper.Map<StudentModel>(StudentService.GetBestStudent());
+
+            return PartialView("_Student", bestStudent);
+
         }
     }
 }

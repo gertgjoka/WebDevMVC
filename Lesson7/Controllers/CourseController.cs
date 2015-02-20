@@ -78,7 +78,8 @@ namespace Lesson7.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(courseModel).State = EntityState.Modified;
+                Course course = Mapper.Map<Course>(courseModel);
+                db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

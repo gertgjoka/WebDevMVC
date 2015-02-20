@@ -13,7 +13,7 @@ namespace Lesson7.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Lesson7Entities : DbContext
+    public partial class Lesson7Entities : DbContext, IContext
     {
         public Lesson7Entities()
             : base("name=Lesson7Entities")
@@ -25,8 +25,8 @@ namespace Lesson7.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentNota> StudentNotas { get; set; }
+        public virtual IDbSet<Course> Courses { get; set; }
+        public virtual IDbSet<Student> Students { get; set; }
+        public virtual IDbSet<StudentNota> StudentNotas { get; set; }
     }
 }

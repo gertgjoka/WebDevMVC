@@ -12,7 +12,7 @@ namespace Lesson7.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Student
+    public partial class Student : BaseEntity
     {
         public Student()
         {

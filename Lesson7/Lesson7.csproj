@@ -43,6 +43,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
@@ -180,6 +186,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\StudentModel.cs" />
+    <Compile Include="Modules\EFModule.cs" />
+    <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Home\Perkthim.Designer.cs" />
@@ -276,6 +284,10 @@
     <ProjectReference Include="..\Lesson7.Model\Lesson7.Model.csproj">
       <Project>{039c5d1f-f1c7-40ff-ae91-6b2fcd3ed37f}</Project>
       <Name>Lesson7.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lesson7.Service\Lesson7.Service.csproj">
+      <Project>{f0843ed0-7697-4c89-9735-4a20b268f149}</Project>
+      <Name>Lesson7.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

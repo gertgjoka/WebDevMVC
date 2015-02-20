@@ -12,7 +12,7 @@ namespace Lesson7.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class StudentNota
+    public partial class StudentNota : BaseEntity
     {
         public int Id { get; set; }
         public Nullable<int> StudentId { get; set; }
