@@ -282,6 +282,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DatabaseFirst\DatabaseFirst.csproj">
+      <Project>{6025be61-3371-4349-a1c0-7118e7ffc61e}</Project>
+      <Name>DatabaseFirst</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lesson7.Model\Lesson7.Model.csproj">
       <Project>{039c5d1f-f1c7-40ff-ae91-6b2fcd3ed37f}</Project>
       <Name>Lesson7.Model</Name>

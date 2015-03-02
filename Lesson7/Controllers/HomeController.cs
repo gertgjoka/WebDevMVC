@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseFirst;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,11 @@ namespace Lesson7.Controllers
 {
     public class HomeController : Controller
     {
+        private Lesson7Entities context = new Lesson7Entities();
         public ActionResult Index()
         {
+            int numer = context.Students.Count();
+            ViewBag.NumriStudenteve = numer;
             return View();
         }
 

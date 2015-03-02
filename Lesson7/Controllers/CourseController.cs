@@ -19,7 +19,12 @@ namespace Lesson7.Controllers
         // GET: Course
         public ActionResult Index()
         {
+            db.Courses.ToList();
+            var course = new Course();
+            var courseModel = new CourseModel();
+
             return View(db.Courses.AsEnumerable().Select(c => Mapper.Map<CourseModel>(c)).ToList());
+
         }
 
         // GET: Course/Details/5
